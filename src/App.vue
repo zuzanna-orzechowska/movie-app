@@ -73,22 +73,5 @@ $contrast-color: #638666;
       transform: rotate(.5turn);
       bottom:0;
     }
-
-
-    /*h1 {
-      position: relative;
-      top: 30px;
-    }*/
-  
-  
-    /*header {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-  
-    }*/
   }
-
-
 </style>
