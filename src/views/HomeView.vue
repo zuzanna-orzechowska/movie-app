@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <form @submit.prevent="SearchMovies()" class="search-box">
-      <input type="text" placeholder="Search for something to watch..." v-model="search">
+      <input type="text" placeholder="Search for inspiration for watching..." v-model="search">
       <button type="submit" class="search-button">
         <i class="fas fa-search"></i>
       </button>
@@ -9,7 +9,7 @@
 
     <!--Here will be router link for detail page for movies/series-->
 
-    <h1 v-if="searchedTitle"> Results for {{ searchedTitle }}</h1>
+    <h1 v-if="searchedTitle"> Results for <span>{{ searchedTitle }}</span></h1>
     <div class="movies-list">
       <div class="movie" v-for="movie in movies" :key="movie.imdbID">
         <router-link :to="'/movie/' + movie.imdbID" class="movie-link">
@@ -86,6 +86,7 @@ $contrast-color: #638666;
       height: 50px;
       padding: 1.5%;
       font-size: 0.8rem;
+      transition: 0.1s;
     }
 
     ::placeholder {
@@ -108,6 +109,109 @@ $contrast-color: #638666;
         -webkit-text-stroke: 3px $dark-base;
       }
     }
+  }
+
+  h1, span {
+    font-size: 1.8rem;
+  }
+
+  h1 {
+    margin-top: 4%;
+    text-align: center;
+
+    span {
+      text-decoration: underline;
+    }
+  }
+
+  .movies-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 4% 8px;
+
+    .movie {
+      max-width: 50%;
+      flex: 1 1 50%;
+      padding: 16px 8px;
+      
+      .movie-link {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        .product-image {
+          position: relative;
+          
+          img {
+            display: block;
+            width: 50%;
+            height: 600px;
+            object-fit: cover;
+            margin: 0 auto;
+            border: 4px $dark-base solid;
+            transition: 0.4s ease;
+          }
+
+          img:hover {
+            transform: scale(1.1);
+          }
+
+          .type {
+            position: absolute;
+            padding: 4px 12px;
+            background-color: $darker-base-color;
+            bottom: 16px;
+            left: 28%;
+            transform: translateX(-50%);
+            text-transform: uppercase;
+            -webkit-box-shadow: 0px 8px 22px -2px rgba(46, 46, 46, 1);
+
+          }
+        }
+
+        .detail {
+          width: 50%;
+          background-color: $contrast-color;
+          margin: 0 auto;
+          flex: 1 1 100%;
+          padding: 12px 8px;
+          border: 4px $dark-base solid;
+
+          h3 {
+            color: #fff2e2;
+            font-size: 1rem;
+          }
+
+          p {
+            color: $base-color;
+            font-size: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 435px) {
+    h1, span {
+    font-size: 1.3rem;
+  }
+
+    .movies-list {
+      margin-bottom: 80%;
+    .movie {
+      .movie-link {
+        .product-image {
+          img {
+            width: 100%;
+            height: 275px;
+          }
+        }
+        .detail {
+          width: 100%;
+        }
+      }
+    }
+  }
   }
 
 </style>
