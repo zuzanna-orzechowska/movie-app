@@ -57,14 +57,11 @@
           margin: 4% 2% 4%;
           display: flex;
           flex-wrap: wrap;
-          //justify-content: center;
           align-items: center;
           gap: 4%;
           
           .left-details {
-             // background-color: plum;
               width: 25%;
-              //background-color: pink;
               h2 {
                   font-size: 1.5rem;
               }
@@ -81,26 +78,17 @@
           }
   
           .right-details {
-             // background-color: aqua;
               background-color: rgba(229, 202, 172,0.6);
               border: solid 2px black;
               width: 60%;
               display: flex;
               align-items: center;
               height: 80%;
-              //position: relative;
               flex-wrap: wrap;
-             // margin: 0 auto;
-              //height: 100vh;
-              //right: 30px;
-              //margin-top: 12%;
   
               .plot {
-                 // margin-top: 16%;
-                  //border: solid 2px black;
                   padding: 0px 2%;
                   margin-top: 2%;
-                  //background-color: rgba(229, 202, 172,0.6);
                   text-align: justify;
               }
   
@@ -109,7 +97,6 @@
               }
   
               .genre-actors-details {
-                 // background-color: aquamarine;
                   display: flex;
                   flex-direction: column;
                   gap: 40px;
@@ -134,9 +121,7 @@
               display: flex;
               flex-direction: column;
               align-items: center;
-             // background-color: rebeccapurple;
               .bottom-details {
-                  //background-color: pink;
                   display: flex;
                   justify-content: center;
                   gap: 40px;
@@ -161,5 +146,64 @@
   
           }
       }
+
+      @media (max-width: 435px){
+        .movie-detail {
+            flex-direction: column;
+            
+            .left-details {
+                width: 80%;
+                text-align: center;
+                h2 {
+                    font-size: 0.8rem;
+                }
+                
+                p{
+                    font-size: 0.5rem;
+                    margin-bottom: 4%;
+                }
+                
+                img {
+                    width: 70%;
+                    -webkit-box-shadow: 0px 8px 22px -2px rgba(46, 46, 46, 1);
+                }
+            }
+            .right-details {
+                width: 90%;
+                margin-bottom: 80%;
+    
+                .plot {
+                    padding: 2% 6%;
+                    padding-left: 4%;
+                }
+    
+                p {
+                    font-size: 0.6rem;
+                }
+    
+                .genre-actors-details {
+                    padding: 0px 4%;
+                    p {
+                        font-size: 0.6rem;
+                    }
+                    .genre {
+                        font-size: 0.6rem;
+                    }
+                }
+            }
+  
+          .wrapper {
+              .bottom-details {
+                  gap: 20px !important;
+                  margin: 4% 0px;
+          
+                  p,span {
+                      font-size: 0.6rem !important;
+                  }
+              }
+          }
+        }
+        
+      }   
       
   </style>
