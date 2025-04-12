@@ -74,4 +74,25 @@ $contrast-color: #638666;
       bottom:0;
     }
   }
+
+  @media (max-width: 435px) {
+    header::before, header::after {
+      height: 15px;
+      -webkit-mask-size: 80px 15px;
+    }
+
+    header {
+      .wrapper {
+        span {
+          font-size: 1.2rem ;
+          -webkit-text-stroke: 2px black;
+        }
+
+        img{
+          width: 12%;
+        }
+      }
+    }
+  }
+
 </style>

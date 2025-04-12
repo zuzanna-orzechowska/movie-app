@@ -192,6 +192,22 @@ $contrast-color: #638666;
   }
 
   @media (max-width: 435px) {
+    .search-box {
+      input[type="text"] {
+      width: 80%;
+      height: 40px;
+      font-size: 0.6rem;
+    }
+
+    .search-button {
+      i {
+        font-size: 1.1rem;
+        color: $contrast-color;
+        -webkit-text-stroke: 3px $dark-base;
+      }
+      }
+    }
+
     h1, span {
     font-size: 1.3rem;
   }
