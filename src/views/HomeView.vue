@@ -9,8 +9,8 @@
 
     <!--Here will be router link for detail page for movies/series-->
 
-    <h1 v-if="searchedTitle"> Results for <span>{{ searchedTitle }}</span></h1>
-    <div class="movies-list">
+    <h1 v-if="searchedTitle"> Results for <span>{{ searchedTitle }}</span></h1> <!--if search value is a title for movie in OMDb-->
+    <div class="movies-list" v-if="movies.length > 0"> <!--checking if any title was searched-->
       <div class="movie" v-for="movie in movies" :key="movie.imdbID">
         <router-link :to="'/movie/' + movie.imdbID" class="movie-link">
           <div class="product-image">
@@ -24,6 +24,7 @@
          </router-link>
       </div>
     </div>
+    <NotFound v-else-if="searchedTitle"></NotFound>
   </div>
 </template>
 
@@ -31,8 +32,13 @@
 // @ is an alias to /src
 import env from '@/env.js';
 import { ref } from 'vue';
+import NotFound from '@/views/NotFound.vue';
 
 export default {
+  components: {
+    NotFound
+  },
+
   setup() {
     const search = ref(""); //refrence to search
     const searchedTitle = ref("") //stores searched title
@@ -46,7 +52,7 @@ export default {
           .then(response => response.json())
           .then(data => {
             //console.log(data);
-            movies.value = data.Search; //array of movies
+            movies.value = data.Search || []; //array of movies (or empty array if there are no results)
             search.value = ""; //reseting what we type in the search box
             console.log(movies.value);
             
