@@ -1,13 +1,11 @@
 <template>
-  <div class="home">
+  <div class="home" ref="topRef">
     <form @submit.prevent="SearchMovies()" class="search-box">
       <input type="text" placeholder="Search for inspiration for watching..." v-model="search">
       <button type="submit" class="search-button">
         <i class="fas fa-search"></i>
       </button>
     </form>
-
-    <!--Here will be router link for detail page for movies/series-->
 
     <h1 v-if="searchedTitle"> Results for <span>{{ searchedTitle }}</span></h1> <!--if search value is a title for movie in OMDb-->
     <div class="movies-list" v-if="movies.length > 0"> <!--checking if any title was searched-->
@@ -23,6 +21,9 @@
           </div>
          </router-link>
       </div>
+      <div class="up-container">
+        <button @click="scrollUp" class="up-icon" type="button"><span class="material-symbols-outlined">arrow_upward</span></button>
+      </div>
     </div>
     <NotFound v-else-if="searchedTitle"></NotFound>
   </div>
@@ -35,6 +36,12 @@ import { ref } from 'vue';
 import NotFound from '@/views/NotFound.vue';
 
 export default {
+  methods: {
+    scrollUp() {
+      this.$refs.topRef?.scrollIntoView({behavior:"smooth"}); //goes back to element with ref atribute / reactive reference to pointed element
+    }
+  },
+
   components: {
     NotFound
   },
@@ -47,7 +54,7 @@ export default {
     const SearchMovies = () => {
       if(search.value != "") {
         searchedTitle.value = search.value;
-        //console.log(search.value); ITS WORKING!
+        //console.log(search.value);
         fetch(`https://www.omdbapi.com/?s=${search.value}&apikey=${env.apikey}`)
           .then(response => response.json())
           .then(data => {
@@ -195,9 +202,36 @@ $contrast-color: #638666;
         }
       }
     }
+
+    .up-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 2%;
+      width: 100%;
+      padding: 0px 4%;
+      
+      .up-icon {
+        cursor: pointer;
+        border: $dark-base 2px solid;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        background-color: #91c496;
+  
+        span {
+          font-size: 1.5rem;
+          font-weight: bold;
+          padding: 2px;
+        }
+      }
+    }
   }
 
   @media (max-width: 435px) {
+    body {
+      margin-bottom: 30%;
+    }
+
     .search-box {
       input[type="text"] {
       width: 80%;
@@ -219,7 +253,7 @@ $contrast-color: #638666;
   }
 
     .movies-list {
-      margin-bottom: 80%;
+      //margin-bottom: 20%;
     .movie {
       .movie-link {
         .product-image {
@@ -232,6 +266,11 @@ $contrast-color: #638666;
           width: 100%;
         }
       }
+    }
+
+    .up-container {
+      margin-top: 8%;
+      justify-content: center;
     }
   }
   }
