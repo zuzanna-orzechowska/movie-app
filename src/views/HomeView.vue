@@ -7,6 +7,22 @@
       </button>
     </form>
 
+    <div class="random-movies" v-if="!searchedTitle">
+      <h1>Check out these titles: </h1>
+      <div class="movie" v-for="movie in randMovies" :key="movie.imdbID">
+        <router-link :to="'/movie/' + movie.imdbID" class="movie-link">
+          <div class="product-image">
+            <img :src="movie.Poster" alt="Movie Poster" />
+            <div class="type">{{ movie.Type }}</div> <!--{} allows to print variable on screen-->
+          </div>
+          <div class="detail">
+            <p class="year">{{ movie.Year }}</p>
+            <h3>{{ movie.Title }}</h3>
+          </div>
+         </router-link>
+      </div>
+    </div>
+
     <h1 v-if="searchedTitle"> Results for <span>{{ searchedTitle }}</span></h1> <!--if search value is a title for movie in OMDb-->
     <div class="movies-list" v-if="movies.length > 0"> <!--checking if any title was searched-->
       <div class="movie" v-for="movie in movies" :key="movie.imdbID">
@@ -32,7 +48,8 @@
 <script>
 // @ is an alias to /src
 import env from '@/env.js';
-import { ref } from 'vue';
+import titles from '@/assets/titlesArr';
+import { ref, onMounted } from 'vue';
 import NotFound from '@/views/NotFound.vue';
 
 export default {
@@ -49,7 +66,8 @@ export default {
   setup() {
     const search = ref(""); //refrence to search
     const searchedTitle = ref("") //stores searched title
-    const movies = ref([]);
+    const movies = ref([]); //works as querySelector()
+    const randMovies = ref([]);
 
     const SearchMovies = () => {
       if(search.value != "") {
@@ -67,11 +85,33 @@ export default {
       }
     }
 
+    const RandomMovie = () => {
+      let randIndex = Math.floor(Math.random()*99);
+      const defaultTitle = search.value || titles[randIndex];
+        fetch(`https://www.omdbapi.com/?s=${defaultTitle}&apikey=${env.apikey}`)
+          .then(response => response.json())
+          .then(data => {
+            //console.log(data);
+            const result = data.Search || [];
+            //movies.value = data.Search || []; //array of movies (or empty array if there are no results)
+            movies.value - result;
+            //const random = [...movies.value].sort(() => 0.5 - Math.random());
+            randMovies.value = [...result].sort(() => 0.5 - Math.random()).slice(0,3); // pick only 3 random titles
+            console.log(randMovies.value);
+          });
+    }
+
+    onMounted(() => { //works as window.onload - automatically run the function after DOM elements are fully loaded
+      RandomMovie();
+    });
+
     return {
       search,
       movies,
       searchedTitle,
-      SearchMovies
+      SearchMovies,
+      RandomMovie,
+      randMovies
     }
   }
 }
