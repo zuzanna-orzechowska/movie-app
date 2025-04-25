@@ -8,6 +8,9 @@
       </div>
     </router-link>
   </header>
+  <main>
+    <router-view></router-view> <!--indicates where main component should be shown-->
+  </main>
   <footer>
     <h1 class="footerTxt">Made with ❤️ by <a href="https://github.com/zuzanna-orzechowska">Zuza</a> and <a href="https://github.com/krlpopiel">Adrian</a></h1>
   </footer>
