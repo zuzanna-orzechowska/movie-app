@@ -1,15 +1,13 @@
+<!--main component - it contains elements that are visible in all components-->
 <template>
   <header>
-    <router-link to="/">
+    <router-link to="/"> <!--link to HomeView component-->
       <div class="wrapper">
         <img src="./assets/MovieNest.png" alt="MovieNest logo">
         <span>MovieNest</span>
       </div>
     </router-link>
   </header>
-  <main>
-    <router-view />
-  </main>
   <footer>
     <h1 class="footerTxt">Made with ❤️ by <a href="https://github.com/zuzanna-orzechowska">Zuza</a> and <a href="https://github.com/krlpopiel">Adrian</a></h1>
   </footer>
@@ -45,6 +43,7 @@ $contrast-color: #638666;
         display: flex;
         gap: 10px;
         justify-content: center;
+        flex-direction: row;
         align-items: center;
         padding: 3% 0px;
 
@@ -86,7 +85,7 @@ $contrast-color: #638666;
     header {
       .wrapper {
         span {
-          font-size: 1.2rem ;
+          font-size: 1.2rem;
           -webkit-text-stroke: 2px black;
         }
 

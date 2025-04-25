@@ -170,7 +170,7 @@
             }
             .right-details {
                 width: 90%;
-                margin-bottom: 80%;
+                margin-bottom: 4%;
     
                 .plot {
                     padding: 2% 6%;

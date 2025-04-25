@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import MovieDetail from '../views/MovieDetail.vue'
 
+//indication of paths that direct to specific component - it's used via <router-link>
+//vue.js custom component
 const routes = [
   {
     path: '/',

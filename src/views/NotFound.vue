@@ -5,6 +5,7 @@ import notFoundImg from '@/assets/notFoundImg.png';
 <template>
   <div class="notFoundContainer">
     <h1 class="txt">Sorry, we don't know movie/series with this title 😿</h1>
+    <!--set img src value to value from import-->
     <img :src="notFoundImg" alt="Not Found - Idk grandpa meme" title="Image from imgflip.com">
   </div>
 </template>
