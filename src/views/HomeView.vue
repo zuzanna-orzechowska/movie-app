@@ -1,25 +1,35 @@
 <template>
-  <div class="home" ref="topRef">
+  <div class="home" ref="topRef"> <!--ref is reference to this div, which is used later in script-->
+    <!--@submit.prevent is a directive that handle forms - it prevents automatical
+    action of browser / if user click Submit - function SearchMovies() is called-->
     <form @submit.prevent="SearchMovies()" class="search-box">
+      <!--if user write title in this input its automaticaly searched - v-model directive-->
       <input type="text" placeholder="Search for inspiration for watching..." v-model="search">
       <button type="submit" class="search-button">
         <i class="fas fa-search"></i>
       </button>
     </form>
 
-    <div class="random-movies" v-if="!searchedTitle">
+    <!--v-if is directive which works as classic if - after title is written, this div
+    will appear with matching movies or series-->
+    <div class="wrapper" v-if="!searchedTitle">
       <h1>Check out these titles: </h1>
-      <div class="movie" v-for="movie in randMovies" :key="movie.imdbID">
-        <router-link :to="'/movie/' + movie.imdbID" class="movie-link">
-          <div class="product-image">
-            <img :src="movie.Poster" alt="Movie Poster" />
-            <div class="type">{{ movie.Type }}</div> <!--{} allows to print variable on screen-->
-          </div>
-          <div class="detail">
-            <p class="year">{{ movie.Year }}</p>
-            <h3>{{ movie.Title }}</h3>
-          </div>
-         </router-link>
+      <div class="random-movies">
+        <!--all matching titles will be displayed via v-for directive,
+        :key gives each element uniqe id, which is id from OMDb API for specific element-->
+        <div class="movie" v-for="movie in randMovies" :key="movie.imdbID">
+          <!--link to MovieDetail component with specific id - only this title will have details-->
+          <router-link :to="'/movie/' + movie.imdbID" class="movie-link">
+            <div class="product-image">
+              <img :src="movie.Poster" alt="Movie Poster" />
+              <div class="type">{{ movie.Type }}</div> <!--{} allows to print variable on screen-->
+            </div>
+            <div class="detail">
+              <p class="year">{{ movie.Year }}</p>
+              <h3>{{ movie.Title }}</h3>
+            </div>
+           </router-link>
+        </div>
       </div>
     </div>
 
@@ -41,7 +51,8 @@
         <button @click="scrollUp" class="up-icon" type="button"><span class="material-symbols-outlined">arrow_upward</span></button>
       </div>
     </div>
-    <NotFound v-else-if="searchedTitle"></NotFound>
+    <NotFound v-else-if="searchedTitle"></NotFound> <!--Using component without router-link
+    it doesn't change web link, it behaviours as classic component-->
   </div>
 </template>
 
@@ -49,6 +60,7 @@
 // @ is an alias to /src
 import env from '@/env.js';
 import titles from '@/assets/titlesArr';
+//ref creates reactive variables, onMounted runs code after the component is mounted
 import { ref, onMounted } from 'vue';
 import NotFound from '@/views/NotFound.vue';
 
@@ -93,9 +105,7 @@ export default {
           .then(data => {
             //console.log(data);
             const result = data.Search || [];
-            //movies.value = data.Search || []; //array of movies (or empty array if there are no results)
             movies.value - result;
-            //const random = [...movies.value].sort(() => 0.5 - Math.random());
             randMovies.value = [...result].sort(() => 0.5 - Math.random()).slice(0,3); // pick only 3 random titles
             console.log(randMovies.value);
           });
@@ -169,7 +179,7 @@ $contrast-color: #638666;
   }
 
   h1 {
-    margin-top: 4%;
+    margin: 4% 0px;
     text-align: center;
 
     span {
@@ -179,25 +189,24 @@ $contrast-color: #638666;
 
   .movies-list {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
-    margin: 4% 8px;
+    gap: 40px;
 
-    .movie {
-      max-width: 50%;
-      flex: 1 1 50%;
-      padding: 16px 8px;
-      
-      .movie-link {
+    .movie{
+        .movie-link {
         display: flex;
         flex-direction: column;
-        height: 100%;
+        flex: 1 100%;
 
         .product-image {
           position: relative;
           
           img {
             display: block;
-            width: 50%;
+            width: 400px;
             height: 600px;
             object-fit: cover;
             margin: 0 auto;
@@ -214,25 +223,24 @@ $contrast-color: #638666;
             padding: 4px 12px;
             background-color: $darker-base-color;
             bottom: 16px;
-            left: 28%;
+            left: 24px;
             transform: translateX(-50%);
             text-transform: uppercase;
             -webkit-box-shadow: 0px 8px 22px -2px rgba(46, 46, 46, 1);
 
           }
         }
-
         .detail {
-          width: 50%;
+          width: 400px;
           background-color: $contrast-color;
           margin: 0 auto;
-          flex: 1 1 100%;
+          height: 104px;
           padding: 12px 8px;
           border: 4px $dark-base solid;
 
           h3 {
             color: #fff2e2;
-            font-size: 1rem;
+            font-size: 0.8rem;
           }
 
           p {
@@ -240,6 +248,7 @@ $contrast-color: #638666;
             font-size: 0.5rem;
           }
         }
+
       }
     }
 
@@ -267,10 +276,76 @@ $contrast-color: #638666;
     }
   }
 
-  @media (max-width: 435px) {
-    body {
-      margin-bottom: 30%;
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    .random-movies {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 80px;
+      
+      .movie{
+        .movie-link {
+          display: flex;
+          flex-direction: column;
+          
+          .product-image {
+          position: relative;
+          
+          img {
+            display: block;
+            width: 400px;
+            height: 600px;
+            object-fit: cover;
+            margin: 0 auto;
+            border: 4px $dark-base solid;
+            transition: 0.4s ease;
+          }
+
+          img:hover {
+            transform: scale(1.1);
+          }
+
+          .type {
+            position: absolute;
+            padding: 4px 12px;
+            background-color: $darker-base-color;
+            bottom: 16px;
+            left: 24px;
+            transform: translateX(-50%);
+            text-transform: uppercase;
+            -webkit-box-shadow: 0px 8px 22px -2px rgba(46, 46, 46, 1);
+
+          }
+        }
+
+        .detail {
+          width: 400px;
+          background-color: $contrast-color;
+          margin: 0 auto;
+          height: 104px;
+          padding: 12px 8px;
+          border: 4px $dark-base solid;
+
+          h3 {
+            color: #fff2e2;
+            font-size: 0.8rem;
+          }
+
+          p {
+            color: $base-color;
+            font-size: 0.5rem;
+          }
+        }
+      }
+      }
     }
+  }
+
+  @media (max-width: 435px) {
 
     .search-box {
       input[type="text"] {
@@ -292,18 +367,23 @@ $contrast-color: #638666;
     font-size: 1.3rem;
   }
 
-    .movies-list {
-      //margin-bottom: 20%;
-    .movie {
-      .movie-link {
+  .movies-list {
+    gap: 20px;
+
+    .movie{
+        .movie-link {
         .product-image {
           img {
-            width: 100%;
-            height: 275px;
+            width: 200px;
+            height: 400px;
+          }
+
+          .type {
+            left: 44px;
           }
         }
         .detail {
-          width: 100%;
+          width: 200px;
         }
       }
     }
@@ -313,6 +393,37 @@ $contrast-color: #638666;
       justify-content: center;
     }
   }
-  }
 
+  body {
+      margin-bottom: 80%;
+    }
+
+    .wrapper {
+      gap: 20px;
+      .random-movies {
+        gap: 20px;
+
+        .movie {
+          .movie-link {
+
+            .product-image {
+              img {
+              width: 200px;
+              height: 400px;
+            }
+
+            .type {
+              left: 44px;
+            }
+
+          }
+          .detail {
+            width: 200px;
+
+          }
+          }
+        }
+      }
+    }
+  }
 </style>
